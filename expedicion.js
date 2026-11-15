@@ -41,3 +41,32 @@ if (input) {
   filter();
   showLinkedMod();
 }
+
+const quickGuides = document.querySelector('#quick-guides');
+
+if (quickGuides) {
+  const entries = Array.from(quickGuides.children);
+  const index = document.querySelector('#quick-index');
+  const title = document.querySelector('#quick-title');
+  const description = document.querySelector('#quick-description');
+
+  const showQuickGuide = () => {
+    const selected = entries.find((entry) => entry.id === location.hash.slice(1));
+    for (const entry of entries) {
+      entry.hidden = Boolean(selected && entry !== selected);
+    }
+    index.hidden = Boolean(selected);
+    title.hidden = Boolean(selected);
+    description.hidden = Boolean(selected);
+    document.title = selected
+      ? `${selected.querySelector('h2').textContent} · Zona Cero`
+      : 'Wikis rápidas · Zona Cero';
+    if (selected) {
+      selected.querySelector('h2').focus({ preventScroll: true });
+      selected.scrollIntoView({ block: 'start' });
+    }
+  };
+
+  window.addEventListener('hashchange', showQuickGuide);
+  showQuickGuide();
+}
