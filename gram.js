@@ -1,6 +1,7 @@
 const status = document.querySelector('#gram-status');
 const feed = document.querySelector('#gram-posts');
 const period = 30 * 60 * 1000;
+const demo = new URLSearchParams(window.location.search).get('demo') === '1';
 const formatDate = new Intl.DateTimeFormat('es-MX', {
   dateStyle: 'medium',
   timeStyle: 'short',
@@ -36,7 +37,9 @@ function postCard(post, feedUrl) {
   gallery.className = 'gram-photos';
   if (Array.isArray(post.photos)) {
     for (const path of post.photos.slice(0, 4)) {
-      if (typeof path !== 'string' || !/^gram-media\/[0-9a-f]{32}\.jpg$/.test(path)) continue;
+      if (typeof path !== 'string') continue;
+      const exportedImage = /^gram-media\/[0-9a-f]{32}\.jpg$/.test(path);
+      if (!exportedImage && !(demo && path === 'carrusel-huerto.webp')) continue;
       const url = new URL(path, feedUrl);
       const link = document.createElement('a');
       link.href = url.href;
@@ -56,13 +59,13 @@ function postCard(post, feedUrl) {
 
 async function refresh() {
   try {
-    const config = await getJson('gram-config.json');
-    if (!config.feed) {
+    const source = demo ? 'gram-demo.json' : (await getJson('gram-config.json')).feed;
+    if (!source) {
       feed.replaceChildren();
       status.textContent = 'El tablón está listo. La conexión al servidor de Minecraft sigue pendiente.';
       return;
     }
-    const url = new URL(config.feed, document.baseURI);
+    const url = new URL(source, document.baseURI);
     if (url.protocol !== 'https:') throw new Error('El feed requiere HTTPS.');
     const data = await getJson(url);
     if (!Array.isArray(data.posts) || !Number.isFinite(Date.parse(data.updatedAt))) {
@@ -71,7 +74,9 @@ async function refresh() {
     const cards = data.posts.slice(0, 24).filter(post => post && typeof post === 'object');
     feed.replaceChildren(...cards.map(post => postCard(post, url)));
     const timestamp = formatDate.format(new Date(data.updatedAt));
-    status.textContent = cards.length
+    status.textContent = demo
+      ? 'Demostración con contenido de ejemplo.'
+      : cards.length
       ? `Última sincronización: ${timestamp} (hora de Puebla).`
       : `Todavía no hay publicaciones compartidas. Última sincronización: ${timestamp} (hora de Puebla).`;
   } catch {
@@ -79,7 +84,7 @@ async function refresh() {
       ? 'La sincronización falló. Sigues viendo la última lectura de esta sesión.'
       : 'El feed de Gram no está disponible por ahora.';
   } finally {
-    window.setTimeout(refresh, period);
+    if (!demo) window.setTimeout(refresh, period);
   }
 }
 
