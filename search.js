@@ -17,3 +17,18 @@ if (input) {
   input.addEventListener('input', filter);
   filter();
 }
+if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const observer = new IntersectionObserver((items) => {
+    items.forEach(({ target, isIntersecting }) => {
+      if (!isIntersecting) return;
+      target.classList.add('revealed');
+      target.classList.remove('reveal-pending');
+      observer.unobserve(target);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.tile, .card').forEach((item) => {
+    if (item.getBoundingClientRect().top < innerHeight) return;
+    item.classList.add('reveal-pending');
+    observer.observe(item);
+  });
+}
