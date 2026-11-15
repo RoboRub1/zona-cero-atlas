@@ -1,0 +1,107 @@
+.featured {
+  min-width: 0;
+  margin: 8px 0 clamp(22px, 4vw, 38px);
+}
+
+.featured-track {
+  display: flex;
+  overflow-x: auto;
+  border: 1px solid #967a5d;
+  border-radius: 7px;
+  box-shadow: 0 5px 18px #170e09a0;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: #a78764 #261c15;
+}
+
+.featured[data-ready] .featured-track { scrollbar-width: none; }
+.featured-track:focus-visible { outline-offset: 4px; }
+
+.featured-slide {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: end;
+  flex: 0 0 100%;
+  min-width: 0;
+  min-height: clamp(258px, 30vw, 340px);
+  padding: clamp(20px, 4vw, 46px);
+  overflow: hidden;
+  scroll-snap-align: start;
+  color: #fff4df;
+  background: #241e15;
+}
+
+.featured-slide img, .featured-slide::after {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-slide img { z-index: -2; object-fit: cover; object-position: center 56%; }
+.featured-slide::after {
+  content: "";
+  z-index: -1;
+  background: linear-gradient(90deg, #17120ff5, #17120fd2 33%, #17120f30 80%), linear-gradient(0deg, #17120fc4, transparent 64%);
+}
+
+.featured-copy { max-width: 490px; }
+.featured-copy small { color: #f5cc8e; }
+.featured-copy h2 {
+  margin: 6px 0;
+  font: 800 clamp(2.15rem, 5vw, 4.2rem)/.98 var(--display);
+  text-shadow: 0 2px 12px #160f09;
+}
+
+.featured-copy p { margin: 8px 0 12px; color: #f2e1c9; font-size: .94rem; }
+.featured-copy .button { padding: 8px 13px; }
+
+.featured-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.featured-pages { display: flex; justify-content: center; flex-wrap: wrap; }
+.featured-controls button {
+  display: inline-grid;
+  min-width: 32px;
+  min-height: 38px;
+  place-items: center;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #ffead0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.featured-controls button:hover { background-color: #24170f9c; }
+.featured-controls .featured-arrow {
+  width: 42px;
+  border: 1px solid #c6a67d;
+  background-color: #2f2119;
+  font-size: 1.18rem;
+}
+
+.featured-pages button::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border: 1px solid #fee0b8;
+  border-radius: 50%;
+}
+
+.featured-pages button[aria-current="true"]::before {
+  width: 17px;
+  border-radius: 4px;
+  background: #fee0b8;
+}
+
+@media (max-width: 560px) {
+  .featured-slide { min-height: 300px; }
+  .featured-slide img { object-position: 66% center; }
+  .featured-slide::after { background: linear-gradient(0deg, #17120ff8 9%, #17120fd1 47%, #17120f20 95%); }
+}
