@@ -16,9 +16,9 @@
   --reading-ink: #fff3df;
   --reading-muted: #e5d3ba;
   --reading-link: #f4cf99;
-  --board: linear-gradient(#31261ebd, #31261ebd), url("tablones-envejecidos.webp") center top / 100% 980px repeat-y, #40332a;
+  --board: linear-gradient(#31261e79, #31261e79), url("tablones-envejecidos.webp") center top / 100% 980px repeat-y, #40332a;
   --oak-image: url("roble-claro.webp");
-  --oak: linear-gradient(#f0debfac, #e7c9a7a8), var(--oak-image) center / cover, var(--panel);
+  --oak: linear-gradient(#f0debf85, #e7c9a783), var(--oak-image) center / cover, var(--panel);
   scroll-padding-top: 100px;
 }
 
@@ -63,7 +63,7 @@ main { flex: 1; }
   position: absolute;
   inset-block: 0;
   width: var(--trunk-width);
-  background: linear-gradient(90deg, #160e0ac9, #1c120914 23%, #fff0cc14 45%, #271a1164 76%, #140e09c7),
+  background: linear-gradient(90deg, #160e0a9a, #1c120905 23%, #fff0cc25 45%, #271a1140 76%, #140e09ad),
     url("corteza-abeto.webp") 28% top / auto 650px repeat-y, #382719;
   box-shadow: inset 1px 0 #c0976d50, inset -1px 0 #140e0ac7;
   pointer-events: none;
@@ -87,7 +87,8 @@ header, footer {
   justify-content: space-between;
   gap: 16px;
   padding: 16px max(5vw, calc((100vw - 1200px) / 2));
-  background: #e7dfd2;
+  background: var(--board);
+  color: var(--reading-ink);
 }
 
 header {
