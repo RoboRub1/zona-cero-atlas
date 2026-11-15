@@ -5,7 +5,7 @@ if (input) {
   const category = document.querySelector('#category');
   const result = document.querySelector('#result');
   const normalize = (value) => value.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-  const searchable = entries.map((entry) => normalize(entry.textContent));
+  const searchable = entries.map((entry) => normalize(`${entry.textContent} ${entry.dataset.search || ''}`));
 
   const filter = () => {
     const terms = normalize(input.value).trim().split(/\s+/).filter(Boolean);

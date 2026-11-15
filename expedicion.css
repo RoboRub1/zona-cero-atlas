@@ -434,3 +434,24 @@ footer { border-top: 1px solid #a17c54; color: var(--reading-muted); font-size: 
 @media (max-width: 345px) {
   .tiles:has(.topic-tile) { grid-template-columns: 1fr; }
 }
+
+/* Guide shelves give each preview just the space its content needs. */
+.cards:has(> .guide-card) {
+  align-items: start;
+}
+
+.guide-card {
+  width: 100%;
+  padding: clamp(14px, 2vw, 19px);
+}
+
+.guide-card h2 { margin-bottom: 4px; font-size: clamp(1.16rem, 2vw, 1.36rem); }
+.guide-card p { margin: 6px 0 0; font-weight: 500; font-size: .92rem; line-height: 1.5; }
+.guide-card .guide-open { margin-top: 5px; padding-top: 3px; }
+.guide-card .guide-mods { margin-top: 10px; padding-top: 8px; gap: 4px; }
+.guide-card .guide-mods a { padding: 3px 6px; }
+.guide-details { display: grid; gap: 16px; margin: 20px 0; }
+.guide-detail { border-left: 2px solid #9b673f; padding-left: 14px; }
+.guide-detail h3 { margin: 0 0 5px; color: var(--ink); font-size: 1.05rem; }
+.guide-detail p { max-width: 70ch; margin-top: 5px; }
+.mod-deep-guide { display: inline-block; margin-top: 9px; font-size: .85rem; font-weight: 700; }
