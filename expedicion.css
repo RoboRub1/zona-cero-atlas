@@ -2,15 +2,17 @@
 
 :root {
   color-scheme: light;
-  --bg: #f1ebdf;
-  --panel: #faf6eb;
-  --line: #d7cbb6;
-  --ink: #30271e;
-  --muted: #625647;
-  --accent: #794223;
-  --moss: #44482d;
+  --bg: #eeebe4;
+  --panel: #f8f5ef;
+  --line: #d5cbbd;
+  --ink: #322a23;
+  --muted: #61574d;
+  --accent: #764c36;
+  --moss: #4b4d36;
   --mono: "IBM Plex Mono", monospace;
   --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --reading-width: 1120px;
+  --grove-width: max(clamp(58px, 9vw, 170px), calc((100% - var(--reading-width)) / 2));
   scroll-padding-top: 100px;
 }
 
@@ -18,10 +20,32 @@
 
 body {
   margin: 0;
+  isolation: isolate;
   background: var(--bg);
   color: var(--ink);
   font: 16px/1.6 Inter, system-ui, sans-serif;
 }
+
+/* The forest stays in the margins as the reading area scrolls. */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset-block: 0;
+  z-index: -1;
+  width: var(--grove-width);
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, #67544024, #8a745b10),
+    linear-gradient(90deg, transparent 18%, var(--bg) 99%),
+    url("ruinas-entre-abetos.webp");
+  background-position: center, center, var(--forest-position) center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+body::before { inset-inline-start: 0; --forest-position: 4%; }
+body::after { inset-inline-end: 0; --forest-position: 32%; transform: scaleX(-1); }
+
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: .2em; }
@@ -33,7 +57,7 @@ header, footer {
   justify-content: space-between;
   gap: 16px;
   padding: 16px max(5vw, calc((100vw - 1200px) / 2));
-  background: #e7ddc9;
+  background: #e7dfd2;
 }
 
 header {
@@ -41,7 +65,7 @@ header {
   top: 0;
   z-index: 5;
   border-bottom: 1px solid var(--line);
-  background: #f1ebdff2;
+  background: #eeebe4f5;
   backdrop-filter: blur(12px);
 }
 
@@ -81,7 +105,8 @@ small, .status { color: var(--moss); font: 600 .76rem/1.5 var(--mono); letter-sp
     linear-gradient(0deg, #16170fc2, transparent 35%);
 }
 
-.hero-copy, .wrap { width: min(90%, 1200px); margin-inline: auto; }
+.hero-copy { width: min(90%, 1200px); margin-inline: auto; }
+.wrap { width: min(calc(100% - 2 * var(--grove-width)), var(--reading-width)); margin-inline: auto; }
 .hero-copy { padding-block: 65px; }
 
 .hero h1, .intro h1, .section-head h2 {
@@ -146,7 +171,7 @@ small, .status { color: var(--moss); font: 600 .76rem/1.5 var(--mono); letter-sp
 }
 
 .tile { display: grid; gap: 8px; padding: 17px 14px; color: var(--ink); }
-.tile:hover { border-color: #9b8f6f; background: #f6efda; text-decoration: none; }
+.tile:hover { border-color: #9b8f6f; background: #f1ece2; text-decoration: none; }
 .tile small { color: var(--muted); letter-spacing: 0; }
 .symbol { font-size: 1.5rem; color: var(--accent); line-height: 1; }
 .card, .download { padding: clamp(18px, 3vw, 26px); }
@@ -172,15 +197,15 @@ small, .status { color: var(--moss); font: 600 .76rem/1.5 var(--mono); letter-sp
 .guide-mods a {
   display: inline-block;
   padding: 4px 8px;
-  border: 1px solid #ccc2a5;
+  border: 1px solid #cdc4b4;
   border-radius: 4px;
-  background: #eeead9;
+  background: #efebe3;
   color: #424629;
   font-size: .79rem;
   line-height: 1.45;
 }
 
-.guide-mods a:hover { background: #e6e1c8; }
+.guide-mods a:hover { background: #e9e2d5; }
 .search { margin: 24px 0 18px; max-width: 780px; }
 .search-fields { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; }
 .search label { display: block; font-size: .9rem; font-weight: 700; margin-bottom: 4px; }
@@ -204,10 +229,10 @@ small, .status { color: var(--moss); font: 600 .76rem/1.5 var(--mono); letter-sp
   align-items: start;
   min-width: 0;
   padding: 19px;
-  border-top: 3px solid #ab9f7f;
+  border-top: 3px solid #a99b86;
 }
 
-.mod-card:target { outline: 2px solid var(--accent); outline-offset: 3px; background: #fff7df; }
+.mod-card:target { outline: 2px solid var(--accent); outline-offset: 3px; background: #f5eede; }
 .mod-card h2 { margin: 3px 0 6px; font-size: 1.16rem; line-height: 1.25; }
 .mod-card p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; }
 .mod-card dl { margin: auto 0 0; padding-top: 9px; border-top: 1px solid var(--line); width: 100%; }
@@ -223,7 +248,7 @@ footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .8re
 [hidden] { display: none !important; }
 
 @media (max-width: 560px) {
-  :root { scroll-padding-top: 125px; }
+  :root { --grove-width: 4%; scroll-padding-top: 125px; }
   header { flex-wrap: wrap; gap: 8px; }
   header nav { order: 3; width: 100%; }
   .hero { min-height: 550px; align-items: end; }
